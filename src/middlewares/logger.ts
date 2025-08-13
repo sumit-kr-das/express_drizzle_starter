@@ -9,9 +9,9 @@ export const logger = pino({
         options: {
           colorize: true,
           translateTime: "SYS:standard",
-          ignore: "pid,hostname"
-        }
+          ignore: "pid,hostname",
+        },
       }
     : undefined,
-  level: process.env.LOG_LEVEL || "info"
+  level: process.env.LOG_LEVEL || "info",
 });
