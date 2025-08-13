@@ -1,63 +1,69 @@
-version: '3.8'
+version: "3.8"
 
 services:
-    # Node.js backend service
-    project-backend:
-        build: .
-        ports:
-            - '8000:8000'
-        container_name: express-container
-        volumes:
-        - .:/usr/src/app
-        - /usr/src/app/node_modules
+  # Node.js backend service
+  project-backend:
+    build: .
+    ports:
+      - "8000:8000"
+    container_name: express-container
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
 
-        depends_on:
-            - db
-        networks:
-            - backend-network
-        environment:
-            PORT: 8000
-            ORIGIN_FRONTEND: http://localhost:5173
-            SALT: 10
-            ACCESS_SECRET: '$2a$12$751rI4BuymmdfPjPam0sVun749j7XfwgQyDqFL57YQWwBBFRzJkNS'
-            REFRESH_SECRET: '$2a$12$751rI4BuymmdfPjPam0sVun749j7XfwgQyDqFL57YQWwBBFRzJkNS'
-            SMTP_HOST: ''
-            SMTP_PORT: 465
-            SMTP_SRC: true
-            SMTP_MAIL: ''
-            SMTP_PASSWORD: ''
-            PG_DB_URL:  ''
-            CLOUDINARY_NAME: ''
-            CLOUDINARY_APIKEY: ''
-            CLOUDINARY_APISECRET: ''
-            RAZORPAY_API_KEY: ''
-            RAZORPAY_API_SECRET: ''
-            GOOGLE_RECAPTCHA_SECRET_KEY: ''
-    db:
-        image: postgres:latest
-        environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: 123456
-            POSTGRES_DB: postgres
-        ports:
-            - '5432:5432'
-        volumes:
-            - postgres-data:/var/lib/postgresql/data
-        networks:
-            - backend-network
+    depends_on:
+      - db
+    networks:
+      - backend-network
+    environment:
+      PORT: 8000
+      ORIGIN_FRONTEND: http://localhost:5173
+      SALT: 10
+      ACCESS_SECRET: "$2a$12$751rI4BuymmdfPjPam0sVun749j7XfwgQyDqFL57YQWwBBFRzJkNS"
+      REFRESH_SECRET: "$2a$12$751rI4BuymmdfPjPam0sVun749j7XfwgQyDqFL57YQWwBBFRzJkNS"
+      SMTP_HOST: ""
+      SMTP_PORT: 465
+      SMTP_SRC: true
+      SMTP_MAIL: ""
+      SMTP_PASSWORD: ""
+      DATABASE_URL: "postgresql://postgres:123456@157.173.219.77:5438/my_project"
+      CLOUDINARY_NAME: ""
+      CLOUDINARY_APIKEY: ""
+      CLOUDINARY_APISECRET: ""
+      RAZORPAY_API_KEY: ""
+      RAZORPAY_API_SECRET: ""
+      GOOGLE_RECAPTCHA_SECRET_KEY: ""
+  db:
+    image: postgres:17
+    container_name: my_project
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: my_project
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-network
 
-    adminer:
-        image: adminer:latest
-        ports:
-            - '8080:8080' # Access Adminer at http://localhost:8080
-        networks:
-            - backend-network
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080" # Access Adminer at http://localhost:8080
+    depends_on:
+        - db
+    networks:
+      - backend-network
 
 # Volumes to persist PostgreSQL data
 volumes:
-    postgres-data:
+  postgres-data:
 
 # Networks to allow communication between containers
 networks:
-    backend-network:
-        driver: bridge
+  backend-network:
+    driver: bridge
