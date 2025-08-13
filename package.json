@@ -1,0 +1,51 @@
+{
+  "name": "express_drizzle_setup",
+  "version": "1.0.0",
+  "description": "nodejs project setup with express, drizzle complete setup",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "rimraf dist && tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier -w ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumit-kr-das/express_drizzle_setup.git"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "drizzle",
+    "postgres"
+  ],
+  "author": "sumit-kr-das",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumit-kr-das/express_drizzle_setup/issues"
+  },
+  "homepage": "https://github.com/sumit-kr-das/express_drizzle_setup#readme",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "morgan": "^1.10.1",
+    "pino": "^9.8.0",
+    "pino-pretty": "^13.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2"
+  }
+}
