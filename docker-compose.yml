@@ -10,37 +10,44 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-
     depends_on:
       - db
     networks:
       - backend-network
+    env_file:
+      - .env # Loads all variables from .env
     environment:
-      PORT: 8000
-      ORIGIN_FRONTEND: http://localhost:5173
-      SALT: 10
-      ACCESS_SECRET: "$2a$12$751rI4BuymmdfPjPam0sVun749j7XfwgQyDqFL57YQWwBBFRzJkNS"
-      REFRESH_SECRET: "$2a$12$751rI4BuymmdfPjPam0sVun749j7XfwgQyDqFL57YQWwBBFRzJkNS"
-      SMTP_HOST: ""
-      SMTP_PORT: 465
-      SMTP_SRC: true
-      SMTP_MAIL: ""
-      SMTP_PASSWORD: ""
-      DATABASE_URL: "postgresql://postgres:123456@157.173.219.77:5438/my_project"
-      CLOUDINARY_NAME: ""
-      CLOUDINARY_APIKEY: ""
-      CLOUDINARY_APISECRET: ""
-      RAZORPAY_API_KEY: ""
-      RAZORPAY_API_SECRET: ""
-      GOOGLE_RECAPTCHA_SECRET_KEY: ""
+      # Optional: override or set defaults here if needed
+      PORT: ${PORT}
+      ORIGIN_FRONTEND: ${ORIGIN_FRONTEND}
+      ORIGIN_ADMIN: ${ORIGIN_ADMIN}
+      ORIGIN_FRONTEND_WWW: ${ORIGIN_FRONTEND_WWW}
+      SALT: ${SALT}
+      ACCESS_SECRET: ${ACCESS_SECRET}
+      REFRESH_SECRET: ${REFRESH_SECRET}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SRC: ${SMTP_SRC}
+      SMTP_MAIL: ${SMTP_MAIL}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL}
+      CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+      CLOUDINARY_APIKEY: ${CLOUDINARY_APIKEY}
+      CLOUDINARY_APISECRET: ${CLOUDINARY_APISECRET}
+      RAZORPAY_API_KEY: ${RAZORPAY_API_KEY}
+      RAZORPAY_API_SECRET: ${RAZORPAY_API_SECRET}
+      GOOGLE_RECAPTCHA_SECRET_KEY: ${GOOGLE_RECAPTCHA_SECRET_KEY}
+
   db:
     image: postgres:17
     container_name: my_project
     restart: always
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: my_project
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -55,15 +62,13 @@ services:
     ports:
       - "8080:8080" # Access Adminer at http://localhost:8080
     depends_on:
-        - db
+      - db
     networks:
       - backend-network
 
-# Volumes to persist PostgreSQL data
 volumes:
   postgres-data:
 
-# Networks to allow communication between containers
 networks:
   backend-network:
     driver: bridge
